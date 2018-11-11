@@ -26,8 +26,11 @@ class Game(ShowBase):
         self.model.set_pos(2, 0, 0)
         self.picker.make_pickable(self.model)
 
-        for j in range(2, 10):
-            self.render.attach_new_node(self.loader.load_model("models/wall_straight_new.egg").node()).set_pos(0, j, 0)
+        for j in range(-100, 100):
+            a = self.render.attach_new_node(self.loader.load_model("models/wall_straight_new.egg").node())
+            a.set_pos(0, j, 0)
+            if j == 4:
+                a.set_texture(self.loader.load_texture('models/tex/test.png'), 1)
 
         self.setBackgroundColor(hex_to_normalized_rgb('#99ffcc'))
         self.render.setShaderAuto()
