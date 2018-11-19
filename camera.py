@@ -35,8 +35,6 @@ class RTSCameraControl(DirectObject.DirectObject):
         self._mx = 0.0
         self._my = 0.0
 
-        self._config_input()
-
         self.set_pos(LVector3f(10, 10, 10))
         self.look_at(LVector3f(0, 0, 0))
 
@@ -92,22 +90,22 @@ class RTSCameraControl(DirectObject.DirectObject):
     def set_radius(self, add=1):
         self.camera.set_pos(self.target, self.camera.get_pos(self.target) * (1 + add / self.get_radius()))
 
-    def _config_input(self):
-        self.ignore_all()
-
-        self.accept('arrow_up', self.axis_move, extraArgs=[0, 0.05])
-        self.accept('arrow_down', self.axis_move, extraArgs=[0, -.05])
-        self.accept('arrow_right', self.axis_move, extraArgs=[1, -.05])
-        self.accept('arrow_left', self.axis_move, extraArgs=[1, 0.05])
-
-        self.accept("wheel_up", self.set_radius, extraArgs=[-1])
-        self.accept("wheel_down", self.set_radius, extraArgs=[1])
-
-        self.accept("mouse3", self.start_spin)
-        self.accept("mouse3-up", self.stop_spin)
-
-        self.accept("mouse1", self.start_sliding)
-        self.accept("mouse1-up", self.stop_sliding)
+    # def _config_input(self):
+    #     self.ignore_all()
+    #
+    #     self.accept('arrow_up', self.axis_move, extraArgs=[0, 0.05])
+    #     self.accept('arrow_down', self.axis_move, extraArgs=[0, -.05])
+    #     self.accept('arrow_right', self.axis_move, extraArgs=[1, -.05])
+    #     self.accept('arrow_left', self.axis_move, extraArgs=[1, 0.05])
+    #
+    #     self.accept("wheel_up", self.set_radius, extraArgs=[-1])
+    #     self.accept("wheel_down", self.set_radius, extraArgs=[1])
+    #
+    #     self.accept("mouse3", self.start_spin)
+    #     self.accept("mouse3-up", self.stop_spin)
+    #
+    #     self.accept("mouse1", self.start_sliding)
+    #     self.accept("mouse1-up", self.stop_sliding)
 
     def start_sliding(self):
         self._is_sliding = True
@@ -139,40 +137,4 @@ class RTSCameraControl(DirectObject.DirectObject):
                           vel_axis_1=self.slide_velocity * (mpos.getX() - self._mx))
                 self._mx = mpos.getX()
                 self._my = mpos.getY()
-        #     elif self.use_panning:
-        #         dy = 0.
-        #         dx = 0.
-        #         if mpos.getY() > (1 - self.panZoneSize):
-        #             dy = mpos.getY() + self.panZoneSize - 1
-        #         elif mpos.getY() < (-1 + self.panZoneSize):
-        #             dy = mpos.getY() + 1 - self.panZoneSize
-        #
-        #         if mpos.getX() > (1 - self.panZoneSize):
-        #             dx = mpos.getX() + self.panZoneSize - 1
-        #         elif mpos.getX() < (-1 + self.panZoneSize):
-        #             dx = mpos.getX() + 1 - self.panZoneSize
-        #
-        #         if dx != 0.0 or dy != 0.0:
-        #             self.move(self.velocity * dx, self.velocity * dy)
-        #     self._mx = mpos.getX()
-        #     self._my = mpos.getY()
-        # elif self.keyboard:
-        #     is_down = self.mwn.is_button_down
-        #     if is_down('arrow_left') or is_down('q'):
-        #         self.move(dx=- self.keyboard_velocity)
-        #     if is_down('arrow_right') or is_down('d'):
-        #         self.move(dx=self.keyboard_velocity)
-        #     if is_down("arrow_up") or is_down('z'):
-        #         self.move(dy=self.keyboard_velocity)
-        #     if is_down('arrow_down') or is_down('s'):
-        #         self.move(dy=-self.keyboard_velocity)
-        #     if is_down('a'):
-        #         self.spin_around_target(d_phi=self.keyboard_spin)
-        #     if is_down('e'):
-        #         self.spin_around_target(d_phi=-self.keyboard_spin)
-        #     if is_down('page_up'):
-        #         self.set_r(0.95 * self._r)
-        #     if is_down('page_down'):
-        #         self.set_r(1.05 * self._r)
-
         return task.cont
